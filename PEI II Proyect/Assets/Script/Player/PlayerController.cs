@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     //Vectores
     private Vector3 playerGravity;
     private Vector2 input;
+    private Vector3 moveDir;
+    [HideInInspector] public Vector3 horizontalMovement;
     //Ints
 
     //floats
@@ -19,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [Header("Variables")]
     [SerializeField] private float velocityMovement = 5f;
     [SerializeField] private float mass = 5f;
+    [SerializeField] private float rotationSpeed = 0.5f;
+    [SerializeField] private Transform cameraTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,8 +38,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         input = playerInput.actions["Move"].ReadValue<Vector2>();
-        Vector3 horizontalMovement = input.x * transform.right + input.y * transform.forward;
-
+        if(input.magnitude >= 0.1f)
+        {
+            horizontalMovement = input.x * transform.right + input.y * transform.forward;
+        }
+        else
+        {
+            horizontalMovement = Vector3.zero;
+        }
         if(characterController.isGrounded && playerGravity.y < 0)
         {
             playerGravity.y = -2f;
@@ -44,9 +54,20 @@ public class PlayerController : MonoBehaviour
         {
             playerGravity.y -= (gravity / mass) * Time.deltaTime;
         }
+        if(horizontalMovement.magnitude > 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSpeed, 0.3f);
 
-        Vector3 newMovement = horizontalMovement + playerGravity;
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        }
+        else
+        {
+            moveDir = Vector3.zero;
+        }
+        Vector3 newMovement = horizontalMovement + playerGravity + moveDir;
         characterController.Move(newMovement * velocityMovement*Time.deltaTime);
     }
 }
