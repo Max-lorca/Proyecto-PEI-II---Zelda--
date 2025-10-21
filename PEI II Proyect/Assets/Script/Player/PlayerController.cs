@@ -15,10 +15,14 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Vector3 horizontalMovement;
     //Ints
 
-    //floats
+    //Floats
     private float gravity = 9.81f;
 
-    [Header("Variables")]
+    //Booleanos
+
+    [Header("Supervivencia")]
+    [SerializeField] public float life = 250;
+    [Header("Movimiento")]
     [SerializeField] private float velocityMovement = 5f;
     [SerializeField] private float mass = 5f;
     [SerializeField] private float rotationSpeed = 0.5f;
@@ -69,5 +73,9 @@ public class PlayerController : MonoBehaviour
         }
         Vector3 newMovement = horizontalMovement + playerGravity + moveDir;
         characterController.Move(newMovement * velocityMovement*Time.deltaTime);
+    }
+    public void TakeDamage(float damage)
+    {
+        this.life -= damage;
     }
 }

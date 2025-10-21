@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+
+    [SerializeField] public float life = 100;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,5 +15,10 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void TakeDamage(float damage)
+    {
+        this.life -= damage;
     }
 }
