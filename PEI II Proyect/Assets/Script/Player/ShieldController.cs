@@ -4,11 +4,9 @@ using UnityEngine.InputSystem;
 
 public class ShieldController : MonoBehaviour
 {
-    
     private PlayerController playerController;
     private bool inputShield = false;
     
-
     [Header("Referencias")]
     [SerializeField] private GameObject shieldPrefab;
     [SerializeField] private Transform shieldActivePosition;
