@@ -20,13 +20,13 @@ public class PlayerController : MonoBehaviour
 
     //Booleanos
 
-    [Header("Supervivencia")]
-    [SerializeField] public float life = 250;
     [Header("Movimiento")]
-    [SerializeField] private float velocityMovement = 5f;
     [SerializeField] private float mass = 5f;
     [SerializeField] private float rotationSpeed = 0.5f;
     [SerializeField] private Transform cameraTransform;
+
+    [Header("Stats")]
+    [SerializeField] public PlayerStats playerStats; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,10 +72,10 @@ public class PlayerController : MonoBehaviour
             moveDir = Vector3.zero;
         }
         Vector3 newMovement = horizontalMovement + playerGravity + moveDir;
-        characterController.Move(newMovement * velocityMovement*Time.deltaTime);
+        characterController.Move(newMovement * playerStats.speed*Time.deltaTime);
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        this.life -= damage;
+        playerStats.life -= damage;
     }
 }
