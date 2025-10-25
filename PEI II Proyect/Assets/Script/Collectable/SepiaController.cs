@@ -3,20 +3,18 @@ using UnityEngine;
 
 public class SepiasController : MonoBehaviour
 {
-    private Rigidbody rb;
     private SphereCollider sphereCollider;
     private bool follow = false;
 
     private Vector3 direction;
-    [Header("Valores")]
+    [Header("Valores de moneda")]
     [SerializeField] private int valor = 1;
+    [Header("Variables de movimiento")]
     [SerializeField] private float velocityMovement = 5f;
     [SerializeField] private float minDistanceToFollowPlayer = 5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
         sphereCollider = GetComponent<SphereCollider>();
         sphereCollider.isTrigger = true;
         
@@ -34,7 +32,7 @@ public class SepiasController : MonoBehaviour
     {
         if (follow)
         {
-            rb.AddForce(direction * velocityMovement); 
+            transform.position += direction * velocityMovement * Time.deltaTime;
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -43,6 +41,7 @@ public class SepiasController : MonoBehaviour
         {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             player.playerStats.sepias += valor;
+            Destroy(gameObject);
         }
     }
 }

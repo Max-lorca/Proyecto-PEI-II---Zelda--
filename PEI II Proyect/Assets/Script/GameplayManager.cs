@@ -17,6 +17,8 @@ public class GameplayManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        LoadPlayerReference();
     }
     private void LoadPlayerReference()
     {
