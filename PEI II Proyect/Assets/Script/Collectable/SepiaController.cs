@@ -16,8 +16,6 @@ public class SepiasController : MonoBehaviour
     void Start()
     {
         sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.isTrigger = true;
-        
     }
     void Update()
     {
@@ -35,13 +33,13 @@ public class SepiasController : MonoBehaviour
             transform.position += direction * velocityMovement * Time.deltaTime;
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.playerStats.sepias += valor;
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }
