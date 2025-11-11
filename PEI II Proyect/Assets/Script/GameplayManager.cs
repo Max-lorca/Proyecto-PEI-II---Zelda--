@@ -20,7 +20,7 @@ public class GameplayManager : MonoBehaviour
 
         LoadPlayerReference();
     }
-    private void LoadPlayerReference()
+    public void LoadPlayerReference()
     {
         playerReference = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }

@@ -4,78 +4,105 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
-    private JumpController jumpController;
-    private AttackController attackController;
-    private ShieldController shieldController;
     private PlayerInput playerInput;
-    //Vectores
+
     private Vector3 playerGravity;
     private Vector2 input;
-    private Vector3 moveDir;
-    [HideInInspector] public Vector3 horizontalMovement;
-    //Ints
 
-    //Floats
-    private float gravity = 9.81f;
-
-    //Booleanos
-
-    [Header("Movimiento")]
+    [SerializeField] private float minTargetDistance = 8f;
+    [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float mass = 5f;
-    [SerializeField] private float rotationSpeed = 0.5f;
+    [SerializeField] private float rotationSpeed = 8f;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] public PlayerStats playerStats;
 
-    [Header("Stats")]
-    [SerializeField] public PlayerStats playerStats; 
+    [Header("Lock-on System")]
+    [SerializeField] private Transform lockTarget;
+    private bool isTargetLocked = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        jumpController = GetComponent<JumpController>();   
-        attackController = GetComponent<AttackController>();
-        shieldController = GetComponent<ShieldController>();
         playerInput = GetComponent<PlayerInput>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Leer movimiento
         input = playerInput.actions["Move"].ReadValue<Vector2>();
-        if(input.magnitude >= 0.1f)
-        {
-            horizontalMovement = input.x * transform.right + input.y * transform.forward;
-        }
-        else
-        {
-            horizontalMovement = Vector3.zero;
-        }
-        if(characterController.isGrounded && playerGravity.y < 0)
-        {
+
+        // Aplicar gravedad
+        if (characterController.isGrounded && playerGravity.y < 0)
             playerGravity.y = -2f;
-        }
         else
-        {
             playerGravity.y -= (gravity / mass) * Time.deltaTime;
-        }
-        if(horizontalMovement.magnitude > 0.1f)
+
+        // Target
+        TargetObject();
+        // Movimiento
+        HandleMovement();
+
+        // Aplicar gravedad al final
+        characterController.Move(playerGravity * Time.deltaTime);
+    }
+
+    void HandleMovement()
+    {
+        if (input.magnitude < 0.1f) return;
+
+        if (!isTargetLocked)
         {
-            float targetAngle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSpeed, 0.3f);
+            //  Modo libre (tipo exploración)
+            Vector3 camForward = cameraTransform.forward;
+            Vector3 camRight = cameraTransform.right;
 
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            camForward.y = 0f;
+            camRight.y = 0f;
 
-            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDir = (camRight * input.x + camForward * input.y).normalized;
+
+            // Girar hacia la dirección de movimiento
+            Quaternion targetRot = Quaternion.LookRotation(moveDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+
+            // Mover
+            characterController.Move(moveDir * playerStats.speed * Time.deltaTime);
+        }
+        else if (lockTarget != null)
+        {
+            //  Modo Z-Target
+            Vector3 toTarget = lockTarget.position - transform.position;
+            toTarget.y = 0f;
+
+            // Mantener orientación hacia el enemigo
+            Quaternion lookRot = Quaternion.LookRotation(toTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
+
+            // Movimiento relativo al personaje
+            Vector3 moveDir = (transform.right * input.x + transform.forward * input.y).normalized;
+            characterController.Move(moveDir * playerStats.speed * Time.deltaTime);
+        }
+    }
+
+    private void TargetObject()
+    {
+        TargetPoint target = GameObject.FindWithTag("TargetPoint").GetComponent<TargetPoint>();
+
+        if(Vector3.Distance(transform.position, target.transform.position) <= minTargetDistance)
+        {
+            lockTarget = target.transform;
         }
         else
         {
-            moveDir = Vector3.zero;
+            lockTarget = this.gameObject.transform;
         }
-        Vector3 newMovement = horizontalMovement + playerGravity + moveDir;
-        characterController.Move(newMovement * playerStats.speed*Time.deltaTime);
     }
-    public void TakeDamage(int damage)
+
+    public void OnLockIn(InputAction.CallbackContext ctx)
     {
-        playerStats.life -= damage;
+        if (ctx.performed)
+        {
+            isTargetLocked = !isTargetLocked;
+        }
     }
 }
