@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 playerGravity;
     private Vector2 input;
+    //Lock-in
+    private bool isTargetLocked = false;
+    private bool isTargetOnLocked = false;
 
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
@@ -18,12 +21,23 @@ public class PlayerController : MonoBehaviour
 
     [Header("Lock-on System")]
     [SerializeField] private Transform lockTarget;
-    private bool isTargetLocked = false;
+
+    [SerializeField] private GameObject barra;
+    [SerializeField] private GameObject barra1;
+    [SerializeField] private GameObject barra2;
+
+    [SerializeField] private Transform TargetBarra1;
+    [SerializeField] private Transform TargetBarra2;
+    [SerializeField] private Transform TargetBarra3;
+
+
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+
+        barra.SetActive(false);
     }
 
     void Update()
@@ -52,6 +66,8 @@ public class PlayerController : MonoBehaviour
 
         if (!isTargetLocked)
         {
+            barra.SetActive(false);
+            BarPosition(0f);
             //  Modo libre (tipo exploración)
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
@@ -70,12 +86,26 @@ public class PlayerController : MonoBehaviour
         }
         else if (lockTarget != null)
         {
+            barra.SetActive(true);
+            BarPosition(2f);
             //  Modo Z-Target
             Vector3 toTarget = lockTarget.position - transform.position;
+
             toTarget.y = 0f;
 
+            Quaternion lookRot;
+
             // Mantener orientación hacia el enemigo
-            Quaternion lookRot = Quaternion.LookRotation(toTarget);
+
+            if (isTargetOnLocked)
+            {
+                lookRot = Quaternion.LookRotation(toTarget); 
+            }
+            else
+            {
+                lookRot = Quaternion.LookRotation(transform.forward);
+            }
+
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
 
             // Movimiento relativo al personaje
@@ -91,11 +121,27 @@ public class PlayerController : MonoBehaviour
         if(Vector3.Distance(transform.position, target.transform.position) <= minTargetDistance)
         {
             lockTarget = target.transform;
+            isTargetOnLocked = true;
         }
         else
         {
             lockTarget = this.gameObject.transform;
+            isTargetOnLocked = false;
         }
+    }
+
+    private void BarPosition(float position)
+    {
+        Transform originalTransform1, originalTransform2;
+
+        originalTransform1 = barra1.transform;
+        originalTransform2 = barra2.transform;
+
+        float targetTransform1 = originalTransform1.position.y - position;
+        float targetTransform2 = originalTransform2.position.y + position;
+
+        barra1.transform.position = new Vector2(0f,targetTransform1);
+        barra2.transform.position = new Vector2(0f,targetTransform2);
     }
 
     public void OnLockIn(InputAction.CallbackContext ctx)
