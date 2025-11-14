@@ -27,14 +27,14 @@ public class ShieldController : MonoBehaviour
         }
         else
         {
-            shieldPrefab.transform.position = Vector3.Lerp(shieldPrefab.transform.position, shieldInactivePosition.position, 0.5f);
+            shieldPrefab.transform.position = Vector3.Lerp(shieldPrefab.transform.position, shieldInactivePosition.position, 10f * Time.deltaTime);
         }
     }
 
     public void ShieldPerformance()
     {
         
-        shieldPrefab.transform.position = Vector3.Lerp(shieldPrefab.transform.position, shieldActivePosition.transform.position, 0.5f);
+        shieldPrefab.transform.position = Vector3.Lerp(shieldPrefab.transform.position, shieldActivePosition.transform.position, 10f * Time.deltaTime);
 
         RaycastHit[] hits = new RaycastHit[5];
 

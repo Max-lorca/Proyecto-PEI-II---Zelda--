@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
+    private float distanceOfPlayer;
     // PRIVATE 
     private FMC followController;
     private Vector3 originSpawn = Vector3.zero;
@@ -10,12 +11,14 @@ public class EnemyController : MonoBehaviour
 
     // PUBLIC
 
-    public enum Estate { Static = 0, Follow = 1, Patrol = 2}
+    public enum Estate { Static = 0, Follow = 1, Patrol = 2, Attack = 3}
     public Estate actualState = Estate.Static;
 
     // SERIALIZE
     [SerializeField] public float life = 100;
     [SerializeField] private float minDistanceFollow = 10f;
+
+    [SerializeField] private float minDistanceStop = 5f;
 
 
 
@@ -31,7 +34,7 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         PlayerController player = GameplayManager.instance.GetPlayerReference();
-        float distanceOfPlayer = Vector3.Distance(transform.position, player.transform.position);
+        distanceOfPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if(distanceOfPlayer <= minDistanceFollow)
         {
@@ -41,6 +44,26 @@ public class EnemyController : MonoBehaviour
         {
             agent.destination = originSpawn;
         }
+    }
+
+    private void States()
+    {
+        switch (actualState)
+        {
+            case Estate.Static:
+                break;
+            case Estate.Follow:
+                break;
+            case Estate.Patrol:
+                break;
+            case Estate.Attack:
+                break;
+        }
+    }
+
+    private void ChangeStates()
+    {
+
     }
 
     public void TakeDamage(float damage)

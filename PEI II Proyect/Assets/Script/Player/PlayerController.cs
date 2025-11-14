@@ -66,8 +66,8 @@ public class PlayerController : MonoBehaviour
         if (!isTargetLocked)
         {
             //camera.LookAt = this.gameObject.transform;
-            barra1.transform.position = Vector3.Lerp(barra1.transform.position, originalTransform1.position, 0.6f);
-            barra2.transform.position = Vector3.Lerp(barra2.transform.position, originalTransform2.position, 0.6f);
+            barra1.transform.position = Vector3.Lerp(barra1.transform.position, originalTransform1.position, 2f * Time.deltaTime);
+            barra2.transform.position = Vector3.Lerp(barra2.transform.position, originalTransform2.position, 2f * Time.deltaTime);
             //  Modo libre (tipo exploración)
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
@@ -87,8 +87,8 @@ public class PlayerController : MonoBehaviour
         else if (lockTarget != null)
         {
             //camera.LookAt = lockTarget.transform;
-            barra1.transform.position = Vector3.Lerp(barra1.transform.position, targetTransform1.position, 0.5f);
-            barra2.transform.position = Vector3.Lerp(barra2.transform.position, targetTransform2.position, 0.5f);
+            barra1.transform.position = Vector3.Lerp(barra1.transform.position, targetTransform1.position, 2f * Time.deltaTime);
+            barra2.transform.position = Vector3.Lerp(barra2.transform.position, targetTransform2.position, 2f * Time.deltaTime);
 
             //Vector3 camDirection = (lockTarget.transform.position - cameraTransform.position).normalized;
 
@@ -134,7 +134,10 @@ public class PlayerController : MonoBehaviour
             isTargetOnLocked = false;
         }
     }
-
+    public void TakeDamage(int damage)
+    {
+        this.playerStats.life -= damage;
+    }
     public void OnLockIn(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
