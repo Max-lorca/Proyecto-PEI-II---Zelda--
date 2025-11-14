@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private bool isTargetLocked = false;
     private bool isTargetOnLocked = false;
 
+    //[SerializeField] private CinemachineCamera camera;
+
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float mass = 5f;
@@ -22,13 +25,11 @@ public class PlayerController : MonoBehaviour
     [Header("Lock-on System")]
     [SerializeField] private Transform lockTarget;
 
-    [SerializeField] private GameObject barra;
     [SerializeField] private GameObject barra1;
     [SerializeField] private GameObject barra2;
 
-    [SerializeField] private Transform TargetBarra1;
-    [SerializeField] private Transform TargetBarra2;
-    [SerializeField] private Transform TargetBarra3;
+    [SerializeField] private Transform targetTransform1, targetTransform2;
+    [SerializeField] private Transform originalTransform1, originalTransform2;
 
 
 
@@ -36,8 +37,6 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
-
-        barra.SetActive(false);
     }
 
     void Update()
@@ -66,8 +65,9 @@ public class PlayerController : MonoBehaviour
 
         if (!isTargetLocked)
         {
-            barra.SetActive(false);
-            BarPosition(0f);
+            //camera.LookAt = this.gameObject.transform;
+            barra1.transform.position = Vector3.Lerp(barra1.transform.position, originalTransform1.position, 0.6f);
+            barra2.transform.position = Vector3.Lerp(barra2.transform.position, originalTransform2.position, 0.6f);
             //  Modo libre (tipo exploración)
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
@@ -86,8 +86,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (lockTarget != null)
         {
-            barra.SetActive(true);
-            BarPosition(2f);
+            //camera.LookAt = lockTarget.transform;
+            barra1.transform.position = Vector3.Lerp(barra1.transform.position, targetTransform1.position, 0.5f);
+            barra2.transform.position = Vector3.Lerp(barra2.transform.position, targetTransform2.position, 0.5f);
+
+            //Vector3 camDirection = (lockTarget.transform.position - cameraTransform.position).normalized;
+
+            //cameraTransform.rotation = Quaternion.LookRotation(camDirection);
             //  Modo Z-Target
             Vector3 toTarget = lockTarget.position - transform.position;
 
@@ -128,20 +133,6 @@ public class PlayerController : MonoBehaviour
             lockTarget = this.gameObject.transform;
             isTargetOnLocked = false;
         }
-    }
-
-    private void BarPosition(float position)
-    {
-        Transform originalTransform1, originalTransform2;
-
-        originalTransform1 = barra1.transform;
-        originalTransform2 = barra2.transform;
-
-        float targetTransform1 = originalTransform1.position.y - position;
-        float targetTransform2 = originalTransform2.position.y + position;
-
-        barra1.transform.position = new Vector2(0f,targetTransform1);
-        barra2.transform.position = new Vector2(0f,targetTransform2);
     }
 
     public void OnLockIn(InputAction.CallbackContext ctx)
