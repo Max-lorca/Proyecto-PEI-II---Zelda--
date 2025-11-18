@@ -1,19 +1,22 @@
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
 
+    private List<TargetPoint> targets = new List<TargetPoint>();
+    private int targetIndex;
+
     private Vector3 playerGravity;
     private Vector2 input;
     //Lock-in
     private bool isTargetLocked = false;
     private bool isTargetOnLocked = false;
-
-    //[SerializeField] private CinemachineCamera camera;
 
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
@@ -121,28 +124,93 @@ public class PlayerController : MonoBehaviour
 
     private void TargetObject()
     {
-        TargetPoint target = GameObject.FindWithTag("TargetPoint").GetComponent<TargetPoint>();
-
-        if(Vector3.Distance(transform.position, target.transform.position) <= minTargetDistance)
+        if (targets.Count == 0)
         {
+            lockTarget = transform;
+            isTargetOnLocked = false;
+            return;
+        }
+
+        targetIndex = Mathf.Clamp(targetIndex, 0, targets.Count - 1);
+
+        TargetPoint target = targets[targetIndex];
+
+        float dist = Vector2.Distance(transform.position, target.transform.position);
+
+        if(dist <= minTargetDistance)
+        {
+            target.isTargeting = true;
             lockTarget = target.transform;
             isTargetOnLocked = true;
         }
         else
         {
-            lockTarget = this.gameObject.transform;
+            target.isTargeting = false;
+            lockTarget = transform;
             isTargetOnLocked = false;
         }
     }
-    public void TakeDamage(int damage)
+
+    public void AddTarget(TargetPoint target)
     {
-        this.playerStats.life -= damage;
+        if (!targets.Contains(target))
+        {
+            targets.Add(target);
+        }
+    }
+    public void RemoveTarget(TargetPoint target)
+    {
+        if (targets.Contains(target))
+        {
+            targets.Remove(target);
+            if (targetIndex >= targets.Count) targetIndex = 0;
+        }
+    }
+    public void ChangeTargetIndexLeft(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed && targets.Count > 0)
+        {
+            targetIndex++;
+            if (targetIndex >= targets.Count)
+                targetIndex = 0;
+        }   
+    }
+    public void ChangeTargetIndexRight(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            targetIndex--;
+
+            if (targetIndex < 0)
+                targetIndex = targets.Count - 1;
+        }
     }
     public void OnLockIn(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
         {
             isTargetLocked = !isTargetLocked;
+        }
+    }
+    public void TakeDamage(int damage)
+    {
+        this.playerStats.life -= damage;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Mob"))
+        {
+            TargetPoint target = other.GetComponentInChildren<TargetPoint>();
+            AddTarget(target);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Mob"))
+        {
+            TargetPoint target = other.GetComponentInChildren<TargetPoint>();
+            RemoveTarget(target);
         }
     }
 }

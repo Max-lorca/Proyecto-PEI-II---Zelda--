@@ -75,8 +75,9 @@ public class AttackController : MonoBehaviour
         {
             switch (attackHits[i].collider?.gameObject.tag)
             {
-                case "Enemy":
-                    EnemyController enemy = attackHits[i].collider.gameObject.GetComponent<EnemyController>();
+                case "BasicKnight":
+                    BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
             }
@@ -102,7 +103,7 @@ public class AttackController : MonoBehaviour
             switch (attackHits[i].collider?.gameObject.tag)
             {
                 case "Enemy":
-                    EnemyController enemy = attackHits[i].collider.gameObject.GetComponent<EnemyController>();
+                    BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
                     enemy.TakeDamage(this.damage);
                     break;
             }
@@ -127,7 +128,7 @@ public class AttackController : MonoBehaviour
             switch (attackHits[i].collider?.gameObject.tag)
             {
                 case "Enemy":
-                    EnemyController enemy = attackHits[i].collider.gameObject.GetComponent<EnemyController>();
+                    BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
                     enemy.TakeDamage(this.damage);
                     break;
             }

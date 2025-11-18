@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyAttackController : MonoBehaviour
+public class BasicKnightAttackController : MonoBehaviour
 {
     private bool isAttacking = false;
 
@@ -10,13 +10,17 @@ public class EnemyAttackController : MonoBehaviour
 
     [Header("Attack parameters")]
     [SerializeField] private int damage = 1;
-    [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private float firstAttackCooldown = 1.5f;
+    [SerializeField] private float attackCooldown = 1f;
     [Range(0, 10)] private float radiusAttack = 3f;
-    private IEnumerator AttackPerformance()
+
+    public IEnumerator AttackPerformance()
     {
         if (!isAttacking)
         {
             isAttacking = true;
+
+            yield return new WaitForSeconds(firstAttackCooldown);
 
             int hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
 
@@ -27,6 +31,8 @@ public class EnemyAttackController : MonoBehaviour
                     case "Player":
                         PlayerController player = attackHits[i].collider.gameObject.GetComponent<PlayerController>();
                         player.TakeDamage(damage);
+                        break;
+                    case "PlayerShield":
                         break;
                 }
             }
