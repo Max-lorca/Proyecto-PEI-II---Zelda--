@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     //Lock-in
     private bool isTargetLockedInput = false;
     private bool rotationTarget = false;
+    private bool swordChestKey = false;
 
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        
     }
 
     void Update()
@@ -198,5 +201,16 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         this.playerStats.life -= damage;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "SwordChestKey":
+                swordChestKey = true;
+                Destroy(other.gameObject);
+                break;
+        }
     }
 }

@@ -6,6 +6,7 @@ public class ShieldController : MonoBehaviour
 {
     private PlayerController playerController;
     private bool inputShield = false;
+    [HideInInspector] public bool haveShield = false;
     
     [Header("Referencias")]
     [SerializeField] private GameObject shieldPrefab;
@@ -17,10 +18,12 @@ public class ShieldController : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        shieldPrefab.SetActive(false);
     }
 
     void Update()
     {
+        shieldPrefab.SetActive(haveShield);
         if (inputShield)
         {
             ShieldPerformance();
@@ -48,7 +51,9 @@ public class ShieldController : MonoBehaviour
                     GameObject proyectil = hits[i].collider.gameObject;
                     Destroy(proyectil);
                     break;
-                case "Enemy":
+                case "BasicKnight":
+                    BasicKnight basicKnight = hits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    basicKnight.TakeKnockBack();
                     break;
             }
         }

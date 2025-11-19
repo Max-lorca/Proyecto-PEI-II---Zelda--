@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class ChestController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        switch (other.gameObject.tag)
+        {
+            case "Player":
+                AttackController playerAttack = other.gameObject.GetComponent<AttackController>();
+                playerAttack.haveSword = true;
+                playerAttack.SwordPrefab.SetActive(true);
+                break;
+        }
     }
 }

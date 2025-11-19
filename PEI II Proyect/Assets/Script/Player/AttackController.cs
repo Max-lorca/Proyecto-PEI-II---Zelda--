@@ -7,15 +7,19 @@ public class AttackController : MonoBehaviour
     private bool isAttacking = false;
     private bool inputAttack = false;
 
+    [HideInInspector] public bool haveSword = false;
+
     private PlayerController playerController;
 
     private int count = 0;
 
+
+    [SerializeField] public GameObject SwordPrefab;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float radiusAttack = 3f;
     [Header("Referencias")]
-    [SerializeField] private GameObject attackPrefab;
+    [SerializeField] private GameObject SlashPrefab;
 
 
     public enum Attack { A = 0, B = 1 , C = 2}
@@ -25,19 +29,21 @@ public class AttackController : MonoBehaviour
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
-        attackPrefab.SetActive(false);
+        SwordPrefab.SetActive(false);
+        SlashPrefab.SetActive(false);
     }
     private void Update()
     {
-        if(!isAttacking && inputAttack && actualAttack == Attack.A)
+
+        if(!isAttacking && inputAttack && actualAttack == Attack.A && haveSword)
         {
             StartCoroutine(AttackAPerformance());
         }
-        if(!isAttacking && inputAttack && actualAttack == Attack.B)
+        if(!isAttacking && inputAttack && actualAttack == Attack.B && haveSword)
         {
             StartCoroutine(AttackBPerformance());
         }
-        if(!isAttacking && inputAttack && actualAttack == Attack.C)
+        if(!isAttacking && inputAttack && actualAttack == Attack.C && haveSword)
         {
             StartCoroutine(AttackCPerformance());
         }
@@ -63,7 +69,7 @@ public class AttackController : MonoBehaviour
     private IEnumerator AttackAPerformance()
     {
         isAttacking = true;
-        attackPrefab.SetActive(true);
+        SlashPrefab.SetActive(true);
         RaycastHit[] attackHits = new RaycastHit[5];
 
         float hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
@@ -77,19 +83,24 @@ public class AttackController : MonoBehaviour
                     enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
+                case "Grass":
+                    GrassController grass = attackHits[i].collider.gameObject.GetComponent<GrassController>();
+                    GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
+                    Destroy(grass.gameObject);
+                    break;
             }
         }
 
         yield return new WaitForSeconds(attackCooldown);
-        attackPrefab.SetActive(false);
+        SlashPrefab.SetActive(false);
         inputAttack = false;
         isAttacking = false;
     }
     private IEnumerator AttackBPerformance()
     {
         isAttacking = true;
-        attackPrefab.SetActive(true);
-        attackPrefab.transform.Rotate(Vector3.right, 25);
+        SlashPrefab.SetActive(true);
+        SlashPrefab.transform.Rotate(Vector3.right, 25);
 
 
         RaycastHit[] attackHits = new RaycastHit[5];
@@ -99,15 +110,21 @@ public class AttackController : MonoBehaviour
         {
             switch (attackHits[i].collider?.gameObject.tag)
             {
-                case "Enemy":
+                case "BasicNight":
                     BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
+                    break;
+                case "Grass":
+                    GrassController grass = attackHits[i].collider.gameObject.GetComponent<GrassController>();
+                    GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
+                    Destroy(grass.gameObject);
                     break;
             }
         }
 
         yield return new WaitForSeconds(attackCooldown);
-        attackPrefab.SetActive(false);
+        SlashPrefab.SetActive(false);
         inputAttack = false;
         isAttacking = false;
 
@@ -115,8 +132,8 @@ public class AttackController : MonoBehaviour
     private IEnumerator AttackCPerformance()
     {
         isAttacking = true;
-        attackPrefab.SetActive(true);
-        attackPrefab.transform.Rotate(Vector3.right, -25);
+        SlashPrefab.SetActive(true);
+        SlashPrefab.transform.Rotate(Vector3.right, -25);
         RaycastHit[] attackHits = new RaycastHit[5];
         float hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
 
@@ -126,13 +143,19 @@ public class AttackController : MonoBehaviour
             {
                 case "BasicKnight":
                     BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
+                    break;
+                case "Grass":
+                    GrassController grass = attackHits[i].collider.gameObject.GetComponent<GrassController>();
+                    GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
+                    Destroy(grass.gameObject);
                     break;
             }
         }
 
         yield return new WaitForSeconds(attackCooldown);
-        attackPrefab.SetActive(false);
+        SlashPrefab.SetActive(false);
         inputAttack = false;
         isAttacking = false;
     }

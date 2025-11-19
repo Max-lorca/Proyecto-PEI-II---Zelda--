@@ -13,7 +13,6 @@ public class GameplayManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            startPlayerPosition = transform.position;
             LoadPlayerReference();
         }
         else
@@ -35,11 +34,11 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    public void InstantiateSepias(float cantidad)
+    public void InstantiateSepias(float cantidad, Transform posicion)
     {
         for (int i = 0; i <= cantidad; i++)
         {
-            Instantiate(sepiasPrefab, transform.position, sepiasPrefab.transform.rotation);
+            Instantiate(sepiasPrefab, posicion.position, sepiasPrefab.transform.rotation);
         }
     }
     public void LoadPlayerReference()
