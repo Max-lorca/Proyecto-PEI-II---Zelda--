@@ -3,20 +3,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
 
-    private List<TargetPoint> targets = new List<TargetPoint>();
-    private int targetIndex;
-
     private Vector3 playerGravity;
     private Vector2 input;
     //Lock-in
-    private bool isTargetLocked = false;
-    private bool isTargetOnLocked = false;
+    private bool isTargetLockedInput = false;
+    private bool rotationTarget = false;
 
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
@@ -27,6 +26,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Lock-on System")]
     [SerializeField] private Transform lockTarget;
+
+    [SerializeField] public TargetPoint actualTarget;
+    [SerializeField] public float searchRadius = 20f;
+    [SerializeField] public LayerMask enemyLayer;
 
     [SerializeField] private GameObject barra1;
     [SerializeField] private GameObject barra2;
@@ -53,8 +56,15 @@ public class PlayerController : MonoBehaviour
         else
             playerGravity.y -= (gravity / mass) * Time.deltaTime;
 
+        if (this.playerStats.life <= 0)
+        {
+            this.playerStats.ResetStats();
+            GameplayManager.instance.ResetLevel();
+        }
+
+
         // Target
-        TargetObject();
+        LockOn();
         // Movimiento
         HandleMovement();
 
@@ -66,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         if (input.magnitude < 0.1f) return;
 
-        if (!isTargetLocked)
+        if (!isTargetLockedInput)
         {
             //camera.LookAt = this.gameObject.transform;
             barra1.transform.position = Vector3.Lerp(barra1.transform.position, originalTransform1.position, 2f * Time.deltaTime);
@@ -103,9 +113,9 @@ public class PlayerController : MonoBehaviour
 
             Quaternion lookRot;
 
-            // Mantener orientación hacia el enemigo
+            // Mantener orientación hacia el enemigo o jugador
 
-            if (isTargetOnLocked)
+            if (rotationTarget)
             {
                 lookRot = Quaternion.LookRotation(toTarget); 
             }
@@ -122,95 +132,71 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TargetObject()
+    private void FindClosestTarget()
     {
-        if (targets.Count == 0)
+        Collider[] hits = Physics.OverlapSphere(transform.position, searchRadius, enemyLayer);
+
+        if (hits.Length == 0)
         {
-            lockTarget = transform;
-            isTargetOnLocked = false;
+            actualTarget = null;
             return;
         }
 
-        targetIndex = Mathf.Clamp(targetIndex, 0, targets.Count - 1);
+        float closest = Mathf.Infinity;
+        TargetPoint best = null;
+        foreach(var h in hits)
+        {
+            TargetPoint tp = h.GetComponentInChildren<TargetPoint>();
+            if (tp == null) continue;
 
-        TargetPoint target = targets[targetIndex];
+            float dist = Vector3.Distance(transform.position, tp.transform.position);
+            if(dist < closest)
+            {
+                closest = dist;
+                best = tp;
+            }
+        }
 
-        float dist = Vector2.Distance(transform.position, target.transform.position);
+        actualTarget = best;
+    }
+
+    private void LockOn()
+    {
+        if(actualTarget == null)
+        {
+            lockTarget = this.transform;
+            rotationTarget = false;
+            return;
+        }
+
+        float dist = Vector3.Distance(transform.position, actualTarget.transform.position);
 
         if(dist <= minTargetDistance)
         {
-            target.isTargeting = true;
-            lockTarget = target.transform;
-            isTargetOnLocked = true;
+            lockTarget = actualTarget.transform;
+            rotationTarget = true;
         }
         else
         {
-            target.isTargeting = false;
+            actualTarget = null;
             lockTarget = transform;
-            isTargetOnLocked = false;
-        }
-    }
-
-    public void AddTarget(TargetPoint target)
-    {
-        if (!targets.Contains(target))
-        {
-            targets.Add(target);
-        }
-    }
-    public void RemoveTarget(TargetPoint target)
-    {
-        if (targets.Contains(target))
-        {
-            targets.Remove(target);
-            if (targetIndex >= targets.Count) targetIndex = 0;
-        }
-    }
-    public void ChangeTargetIndexLeft(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed && targets.Count > 0)
-        {
-            targetIndex++;
-            if (targetIndex >= targets.Count)
-                targetIndex = 0;
-        }   
-    }
-    public void ChangeTargetIndexRight(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
-        {
-            targetIndex--;
-
-            if (targetIndex < 0)
-                targetIndex = targets.Count - 1;
+            rotationTarget = false;
         }
     }
     public void OnLockIn(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
         {
-            isTargetLocked = !isTargetLocked;
+            isTargetLockedInput = !isTargetLockedInput;
+
+            if (isTargetLockedInput)
+                FindClosestTarget();
+            else
+                actualTarget = null;
         }
     }
     public void TakeDamage(int damage)
     {
         this.playerStats.life -= damage;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Mob"))
-        {
-            TargetPoint target = other.GetComponentInChildren<TargetPoint>();
-            AddTarget(target);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Mob"))
-        {
-            TargetPoint target = other.GetComponentInChildren<TargetPoint>();
-            RemoveTarget(target);
-        }
     }
 }

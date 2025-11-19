@@ -58,9 +58,6 @@ public class AttackController : MonoBehaviour
         {
             actualAttack = Attack.C;
         }
-
-        Debug.Log(count);
-        Debug.Log(attackPrefab.transform.rotation);
     }
 
     private IEnumerator AttackAPerformance()
@@ -127,7 +124,7 @@ public class AttackController : MonoBehaviour
         {
             switch (attackHits[i].collider?.gameObject.tag)
             {
-                case "Enemy":
+                case "BasicKnight":
                     BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
                     enemy.TakeDamage(this.damage);
                     break;

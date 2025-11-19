@@ -5,20 +5,42 @@ public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager instance;
     private PlayerController playerReference;
+
+    [SerializeField] private GameObject sepiasPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            startPlayerPosition = transform.position;
+            LoadPlayerReference();
         }
         else
         {
             Destroy(gameObject);
         }
 
-        LoadPlayerReference();
+        DontDestroyOnLoad(gameObject);
+    }
+    private void Update()
+    {
+        if(playerReference == null)
+        {
+            LoadPlayerReference();
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void InstantiateSepias(float cantidad)
+    {
+        for (int i = 0; i <= cantidad; i++)
+        {
+            Instantiate(sepiasPrefab, transform.position, sepiasPrefab.transform.rotation);
+        }
     }
     public void LoadPlayerReference()
     {

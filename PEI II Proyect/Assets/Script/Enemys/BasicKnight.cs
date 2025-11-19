@@ -27,9 +27,6 @@ public class BasicKnight : MonoBehaviour
     [SerializeField] private float knockBackValue;
 
     [Header("Attack Parameters")]
-    [SerializeField] private float damage;
-    [SerializeField] private float firstAttackCooldown;
-    [SerializeField] private float attackCooldown;
     private bool isInKnockBack = false;
 
 
@@ -49,9 +46,6 @@ public class BasicKnight : MonoBehaviour
 
         if(this.life <= 0)
         {
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            TargetPoint target = GetComponentInChildren<TargetPoint>();
-            playerController.RemoveTarget(target);
             Destroy(this.gameObject);
         }
 
@@ -85,7 +79,10 @@ public class BasicKnight : MonoBehaviour
                 break;
             case Estate.Attack:
                 agent.isStopped = true;
-                StartCoroutine(attackController.AttackPerformance());
+                if (!attackController.isAttacking)
+                {
+                    StartCoroutine(attackController.AttackPerformance()); 
+                }
                 break;
         }
     }
