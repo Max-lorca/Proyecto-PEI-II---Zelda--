@@ -20,7 +20,7 @@ public class ShieldController : MonoBehaviour
 
     void Update()
     {
-        if (inputShield)
+        if (inputShield && haveShield != false)
         {
             ShieldPerformance();
         }

@@ -9,6 +9,7 @@ TagManager:
   - BasicKnight
   - Grass
   - SwordChestKey
+  - NPC
   layers:
   - Default
   - TransparentFX
