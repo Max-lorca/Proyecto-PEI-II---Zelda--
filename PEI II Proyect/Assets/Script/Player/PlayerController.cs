@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 8f;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] public PlayerStats playerStats;
+
+    [Header("Dash")]
+    [SerializeField] private float dashDistance = 8f;
+    [SerializeField] private float dashDuration = 0.15f;
+    [SerializeField] private float dashCooldown = 0.5f;
+
+    private bool isDashing = false;
+    private float lasDashTime = -999f;
+    private Vector3 dashDirection;
 
     [Header("Lock-on System")]
     [SerializeField] private Transform lockTarget;
@@ -77,7 +87,10 @@ public class PlayerController : MonoBehaviour
 
     void HandleMovement()
     {
+        if (isDashing) return;
+
         if (input.magnitude < 0.1f) return;
+
 
         if (!isTargetLockedInput)
         {
@@ -137,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     private void FindClosestTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, searchRadius, enemyLayer);
+        Collider[] hits = Physics.OverlapSphere(transform.position + Vector3.forward*10, searchRadius, enemyLayer);
 
         if (hits.Length == 0)
         {
@@ -196,6 +209,42 @@ public class PlayerController : MonoBehaviour
                 FindClosestTarget();
             else
                 actualTarget = null;
+        }
+    }
+
+    private void TryDash()
+    {
+        if (isDashing) return;
+        if (Time.time < lasDashTime + dashCooldown) return;
+
+        isDashing = true;
+        lasDashTime = Time.time;
+        dashDirection = transform.forward;
+
+        StartCoroutine(DashCoroutine());
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        float elapsed = 0f;
+
+        float dashSpeed = dashDistance / dashDuration;
+
+        while(elapsed < dashDuration)
+        {
+            characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        isDashing = false;
+    }
+    public void OnDash(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            TryDash();
         }
     }
     public void TakeDamage(int damage)

@@ -10,11 +10,8 @@ public class ShieldController : MonoBehaviour
     
     [Header("Referencias")]
     [SerializeField] private GameObject shieldPrefab;
-    [SerializeField] private Transform shieldActivePosition;
-    [SerializeField] private Transform shieldInactivePosition;
     [Header("Variables")]
-    [SerializeField] private float radius = 0.5f;
-    [SerializeField] private float distance = 2f;
+    [SerializeField] private float radius = 5;
     void Start()
     {
         playerController = GetComponent<PlayerController>();
@@ -23,36 +20,31 @@ public class ShieldController : MonoBehaviour
 
     void Update()
     {
-        shieldPrefab.SetActive(haveShield);
         if (inputShield)
         {
             ShieldPerformance();
         }
         else
         {
-            shieldPrefab.transform.position = Vector3.Lerp(shieldPrefab.transform.position, shieldInactivePosition.position, 10f * Time.deltaTime);
+            shieldPrefab.SetActive(false);
         }
     }
 
     public void ShieldPerformance()
     {
-        
-        shieldPrefab.transform.position = Vector3.Lerp(shieldPrefab.transform.position, shieldActivePosition.transform.position, 10f * Time.deltaTime);
+        shieldPrefab.SetActive(true);
+         Collider[] hitCount = Physics.OverlapSphere(shieldPrefab.transform.position, radius);
 
-        RaycastHit[] hits = new RaycastHit[5];
-
-        int hitCount = Physics.SphereCastNonAlloc(shieldPrefab.transform.position, radius, transform.forward, hits, distance);
-
-        for(int i = 0; i < hitCount; i++)
+        for(int i = 0; i < hitCount.Length; i++)
         {
-            switch (hits[i].collider.tag)
+            switch (hitCount[i].gameObject.tag)
             {
                 case "Proyectile":
-                    GameObject proyectil = hits[i].collider.gameObject;
+                    GameObject proyectil = hitCount[i].gameObject.gameObject;
                     Destroy(proyectil);
                     break;
                 case "BasicKnight":
-                    BasicKnight basicKnight = hits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    BasicKnight basicKnight = hitCount[i].gameObject.gameObject.GetComponent<BasicKnight>();
                     basicKnight.TakeKnockBack();
                     break;
             }

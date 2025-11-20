@@ -7,7 +7,7 @@ public class AttackController : MonoBehaviour
     private bool isAttacking = false;
     private bool inputAttack = false;
 
-    [HideInInspector] public bool haveSword = false;
+    
 
     private PlayerController playerController;
 
@@ -18,6 +18,8 @@ public class AttackController : MonoBehaviour
     [SerializeField] private float damage = 10f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float radiusAttack = 3f;
+
+    [SerializeField] public bool haveSword = false;
     [Header("Referencias")]
     [SerializeField] private GameObject SlashPrefab;
 
@@ -70,21 +72,20 @@ public class AttackController : MonoBehaviour
     {
         isAttacking = true;
         SlashPrefab.SetActive(true);
-        RaycastHit[] attackHits = new RaycastHit[5];
 
-        float hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
+        Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
 
-        for(int i = 0; i < hits; i++)
+        for(int i = 0; i < hits.Length; i++)
         {
-            switch (attackHits[i].collider?.gameObject.tag)
+            switch (hits[i]?.gameObject.tag)
             {
                 case "BasicKnight":
-                    BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
                     enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
                 case "Grass":
-                    GrassController grass = attackHits[i].collider.gameObject.GetComponent<GrassController>();
+                    GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
                     GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
                     Destroy(grass.gameObject);
                     break;
@@ -103,20 +104,19 @@ public class AttackController : MonoBehaviour
         SlashPrefab.transform.Rotate(Vector3.right, 25);
 
 
-        RaycastHit[] attackHits = new RaycastHit[5];
-        float hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
+        Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
 
-        for(int i = 0; i< hits; i++)
+        for(int i = 0; i< hits.Length; i++)
         {
-            switch (attackHits[i].collider?.gameObject.tag)
+            switch (hits[i].gameObject.tag)
             {
                 case "BasicNight":
-                    BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
                     enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
                 case "Grass":
-                    GrassController grass = attackHits[i].collider.gameObject.GetComponent<GrassController>();
+                    GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
                     GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
                     Destroy(grass.gameObject);
                     break;
@@ -134,20 +134,20 @@ public class AttackController : MonoBehaviour
         isAttacking = true;
         SlashPrefab.SetActive(true);
         SlashPrefab.transform.Rotate(Vector3.right, -25);
-        RaycastHit[] attackHits = new RaycastHit[5];
-        float hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
 
-        for (int i = 0; i < hits; i++)
+        Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
+
+        for (int i = 0; i < hits.Length; i++)
         {
-            switch (attackHits[i].collider?.gameObject.tag)
+            switch (hits[i].gameObject.tag)
             {
                 case "BasicKnight":
-                    BasicKnight enemy = attackHits[i].collider.gameObject.GetComponent<BasicKnight>();
+                    BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
                     enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
                 case "Grass":
-                    GrassController grass = attackHits[i].collider.gameObject.GetComponent<GrassController>();
+                    GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
                     GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
                     Destroy(grass.gameObject);
                     break;

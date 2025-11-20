@@ -6,7 +6,6 @@ public class BasicKnightAttackController : MonoBehaviour
 {
     [HideInInspector] public bool isAttacking = false;
 
-    private RaycastHit[] attackHits = new RaycastHit[5];
 
     [Header("Attack parameters")]
     [SerializeField] private int damage = 1;
@@ -19,14 +18,14 @@ public class BasicKnightAttackController : MonoBehaviour
         isAttacking = true;
 
         yield return new WaitForSeconds(firstAttackCooldown);
-        int hits = Physics.SphereCastNonAlloc(transform.position, radiusAttack, transform.forward, attackHits);
+        Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
 
-        for (int i = 0; i < hits; i++)
+        for (int i = 0; i < hits.Length; i++)
         {
-            switch (attackHits[i].collider.gameObject.tag)
+            switch (hits[i].gameObject.tag)
             {
                 case "Player":
-                    PlayerController player = attackHits[i].collider.gameObject.GetComponent<PlayerController>();
+                    PlayerController player = hits[i].gameObject.GetComponent<PlayerController>();
                     player.TakeDamage(damage);
                     break;
                 case "PlayerShield":

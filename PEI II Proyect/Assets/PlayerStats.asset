@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   life: 3
   speed: 5
-  sepias: 17
+  sepias: 0
