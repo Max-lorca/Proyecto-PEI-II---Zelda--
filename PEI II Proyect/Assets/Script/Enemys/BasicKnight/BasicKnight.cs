@@ -46,7 +46,11 @@ public class BasicKnight : MonoBehaviour
 
         if(this.life <= 0)
         {
+            TargetPoint selfTarget = GetComponentInChildren<TargetPoint>();
             Destroy(this.gameObject);
+
+            Destroy(selfTarget.currentTarget.gameObject);
+            Destroy(selfTarget.gameObject);
         }
 
         ChangeStates();
@@ -96,17 +100,29 @@ public class BasicKnight : MonoBehaviour
         if (!isInKnockBack)
         {
             isInKnockBack = true;
-            agent.isStopped = true;
+            agent.enabled = false;
             Transform player = GameplayManager.instance.GetPlayerReference().transform;
             Vector3 knockBackDirection = (this.transform.position - player.position).normalized;
 
-            knockBackDirection.y = 0.5f;
+            knockBackDirection.y = 0f;
             knockBackDirection = knockBackDirection.normalized;
 
-            rb.AddForce(knockBackDirection * knockBackValue);
-            yield return new WaitForSeconds(knockBackCooldown);
+            float elapsed = 0f;
+
+            while (elapsed <= knockBackCooldown)
+            {
+                transform.position += knockBackDirection * knockBackValue * Time.deltaTime;
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 1f, NavMesh.AllAreas))
+                transform.position = hit.position;
+
             isInKnockBack = false;
-            agent.isStopped = false;
+            agent.enabled = true;
         }
     }
     public void TakeDamage(float damage)
