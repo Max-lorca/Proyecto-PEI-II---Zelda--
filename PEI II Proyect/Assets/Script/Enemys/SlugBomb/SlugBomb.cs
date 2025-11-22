@@ -31,6 +31,7 @@ public class SlugBomb : MonoBehaviour
 
     [Header("Attack Parameters")]
     [SerializeField] private float detectPlayerRadius = 2f;
+    [SerializeField] private float initialTimeAttack = 1.5f;
 
     [Header("Jump Parameters")]
     [SerializeField] private float duration = 1f;
@@ -105,6 +106,8 @@ public class SlugBomb : MonoBehaviour
     {
         isJumping = true;
         agent.enabled = false;
+
+        yield return new WaitForSeconds(initialTimeAttack);
 
         Transform player = GameplayManager.instance.GetPlayerReference().transform;
 

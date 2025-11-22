@@ -11,6 +11,8 @@ TagManager:
   - SwordChestKey
   - NPC
   - SlugBomb
+  - OctoRock
+  - MagicShield
   layers:
   - Default
   - TransparentFX
