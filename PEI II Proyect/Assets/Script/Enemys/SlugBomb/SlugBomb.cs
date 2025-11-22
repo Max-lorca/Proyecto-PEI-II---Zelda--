@@ -6,11 +6,12 @@ public class SlugBomb : MonoBehaviour
 {// PRIVATE 
     //REFERENCIAS
     private NavMeshAgent agent;
-    private SlugBombAttack attackController;
+    private SlugBombExplote exploteController;
 
     private float distanceOfPlayer;
 
     private bool isInKnockBack = false;
+    private bool isJumping = false;
     // PUBLIC
 
     public enum Estate {Chase = 1, Attack = 2}
@@ -20,14 +21,20 @@ public class SlugBomb : MonoBehaviour
     [SerializeField] public float life = 100;
     [SerializeField] private float minDistanceFollow;
 
-    [SerializeField] private float minDistanceStop;
+    [SerializeField] private float minDistanceAttack;
 
     [Header("Knight Parameters")]
     [SerializeField] private float knockBackCooldown;
     [SerializeField] private float knockBackValue;
 
+    [SerializeField] private float cantSepias = 5f;
+
     [Header("Attack Parameters")]
     [SerializeField] private float detectPlayerRadius = 2f;
+
+    [Header("Jump Parameters")]
+    [SerializeField] private float duration = 1f;
+    [SerializeField] private float height = 2.5f;
 
 
 
@@ -35,7 +42,7 @@ public class SlugBomb : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        attackController = GetComponent<SlugBombAttack>();
+        exploteController = GetComponent<SlugBombExplote>();
     }
 
     // Update is called once per frame
@@ -46,20 +53,25 @@ public class SlugBomb : MonoBehaviour
 
         if (this.life <= 0)
         {
+
+            GameplayManager.instance.InstantiateSepias(cantSepias, this.transform);
+
             TargetPoint selfTarget = GetComponentInChildren<TargetPoint>();
-            Destroy(this.gameObject);
 
             Destroy(selfTarget.currentTarget.gameObject);
             Destroy(selfTarget.gameObject);
+            Destroy(this.gameObject);
         }
-
-        ChangeStates();
-        State(player);
+        if (!isInKnockBack && !isJumping)
+        {
+            ChangeStates();
+            State(player);
+        }
 
     }
     private void ChangeStates()
     {
-        if (distanceOfPlayer <= minDistanceStop)
+        if (distanceOfPlayer <= minDistanceAttack)
         {
             actualState = Estate.Attack;
         }
@@ -76,16 +88,22 @@ public class SlugBomb : MonoBehaviour
                 Follow(player);
                 break;
             case Estate.Attack:
-                agent.isStopped = true;
+                if (!isJumping)
+                {
+                    StartCoroutine(ParabolicJump(duration, height)); 
+                }
                 break;
         }
     }
     private void Follow(Transform playerTransform)
     {
-        agent.destination = playerTransform.position;
+        if (!agent.enabled) return;
+
+        agent.SetDestination(playerTransform.position);
     }
     private IEnumerator ParabolicJump(float duration, float heigth)
     {
+        isJumping = true;
         agent.enabled = false;
 
         Transform player = GameplayManager.instance.GetPlayerReference().transform;
@@ -107,6 +125,25 @@ public class SlugBomb : MonoBehaviour
 
             position.y += parabola * heigth;
 
+            transform.position = position;
+
+            Collider[] hits = Physics.OverlapSphere(transform.position, detectPlayerRadius);
+
+
+            foreach(Collider hit in hits)
+            {
+                switch (hit.tag)
+                {
+                    case "Player":
+                        if (!exploteController.isExploting)
+                        {
+                            StartCoroutine(exploteController.Explotion());
+                        }
+                    break;
+                }
+            }
+
+
             elapsed += Time.deltaTime;
 
 
@@ -117,6 +154,7 @@ public class SlugBomb : MonoBehaviour
         transform.position = end;
 
         agent.enabled = true;
+        isJumping = false;
     }
 
 
@@ -129,7 +167,7 @@ public class SlugBomb : MonoBehaviour
             Transform player = GameplayManager.instance.GetPlayerReference().transform;
             Vector3 knockBackDirection = (this.transform.position - player.position).normalized;
 
-            knockBackDirection.y = 0.5f;
+            knockBackDirection.y = 0f;
             knockBackDirection = knockBackDirection.normalized;
 
             float elapsed = 0f;
@@ -141,6 +179,11 @@ public class SlugBomb : MonoBehaviour
                 elapsed += Time.deltaTime;
                 yield return null;
             }
+            
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 1f, NavMesh.AllAreas))
+                transform.position = hit.position;
+
             isInKnockBack = false;
             agent.enabled = true;
         }

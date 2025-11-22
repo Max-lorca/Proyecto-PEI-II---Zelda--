@@ -7,10 +7,15 @@ public class SlugBombExplote : MonoBehaviour
 
     [SerializeField] private int explotionDamage = 1;
     [SerializeField] private float explotionRadius = 3f;
-    [SerializeField] private float explotionTime;
+    [SerializeField] private float explotionTime = 0.3f;
 
     public IEnumerator Explotion()
     {
+        if (isExploting) yield break;
+
+        isExploting = true;
+
+        yield return new WaitForSeconds(explotionTime);
         Collider[] hits = Physics.OverlapSphere(transform.position, explotionRadius);
 
         foreach(Collider hit in hits)
@@ -23,6 +28,7 @@ public class SlugBombExplote : MonoBehaviour
                     break;
             }
         }
-        yield return null;
+
+        Destroy(this.gameObject);
     }
 }

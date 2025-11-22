@@ -143,14 +143,20 @@ public class AttackController : MonoBehaviour
             {
                 case "BasicKnight":
                     BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
-                    enemy.TakeKnockBack();
+                    StartCoroutine(enemy.TakeKnockBack());
                     enemy.TakeDamage(this.damage);
+                    break;
+                case "SlugBomb":
+                    SlugBomb slugEnemy = hits[i].gameObject.GetComponent<SlugBomb>();
+                    StartCoroutine(slugEnemy.TakeKnockBack());
+                    slugEnemy.TakeDamage(this.damage);
                     break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
                     GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
                     Destroy(grass.gameObject);
                     break;
+
             }
         }
 

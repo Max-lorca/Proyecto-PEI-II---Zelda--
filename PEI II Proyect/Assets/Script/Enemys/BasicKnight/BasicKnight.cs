@@ -5,9 +5,7 @@ public class BasicKnight : MonoBehaviour
 {
     // PRIVATE 
     private float distanceOfPlayer;
-    private Vector3 originSpawn = Vector3.zero;
 
-    private Rigidbody rb;
     private NavMeshAgent agent;
     private BasicKnightAttackController attackController;
 
@@ -26,14 +24,15 @@ public class BasicKnight : MonoBehaviour
     [SerializeField] private float knockBackCooldown;
     [SerializeField] private float knockBackValue;
 
+    [SerializeField] private float cantSepias = 5f;
+
     [Header("Attack Parameters")]
-    private bool isInKnockBack = false;
+    [HideInInspector] private bool isInKnockBack = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         attackController = GetComponent<BasicKnightAttackController>();
     }
@@ -46,6 +45,8 @@ public class BasicKnight : MonoBehaviour
 
         if(this.life <= 0)
         {
+            GameplayManager.instance.InstantiateSepias(cantSepias, this.transform);
+
             TargetPoint selfTarget = GetComponentInChildren<TargetPoint>();
             Destroy(this.gameObject);
 
@@ -53,8 +54,11 @@ public class BasicKnight : MonoBehaviour
             Destroy(selfTarget.gameObject);
         }
 
-        ChangeStates();
-        State(player);
+        if (!isInKnockBack)
+        {
+            ChangeStates();
+            State(player); 
+        }
 
     }
     private void ChangeStates()

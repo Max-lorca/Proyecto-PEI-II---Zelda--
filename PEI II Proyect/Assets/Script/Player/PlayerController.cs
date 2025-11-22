@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     private void FindClosestTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position + Vector3.forward*10, searchRadius, enemyLayer);
+        Collider[] hits = Physics.OverlapSphere(transform.position + Vector3.forward*1.5f, searchRadius, enemyLayer);
 
         if (hits.Length == 0)
         {

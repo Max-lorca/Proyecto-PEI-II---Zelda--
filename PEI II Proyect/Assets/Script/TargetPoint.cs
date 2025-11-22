@@ -23,26 +23,25 @@ public class TargetPoint : MonoBehaviour
 
     [SerializeField] private float minDistanceTarget;
 
+    void Start()
+    {
+        if (currentTarget == null)
+        {
+            currentTarget = Instantiate(targetPrefab, transform.position, Quaternion.identity);
+            currentTarget.SetActive(false);
+
+            Renderer rend = currentTarget.GetComponent<Renderer>();
+            if (rend != null) originalColor = rend.material.color;
+
+            StartCoroutine(RotationTarget(currentTarget));
+            StartCoroutine(FlotingTarget(currentTarget)); 
+        }
+    }
 
     private void Update()
     {
         PlayerController player = GameplayManager.instance.GetPlayerReference();
         float distanceOfPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-        if(currentTarget == null)
-        {
-            currentTarget = Instantiate(targetPrefab, transform.position, Quaternion.identity);
-            currentTarget.SetActive(false);
-            Renderer rend = currentTarget.GetComponent<Renderer>();
-
-            if(rend != null)
-            {
-                originalColor = rend.material.color;
-            }
-
-            StartCoroutine(RotationTarget(currentTarget));
-            StartCoroutine(FlotingTarget(currentTarget));
-        }
 
         currentTarget.transform.position = transform.position;
 
@@ -141,5 +140,12 @@ public class TargetPoint : MonoBehaviour
         sr.material.color = color;
     }
 
+    private void OnDestroy()
+    {
+        if(currentTarget != null)
+        {
+            Destroy(currentTarget);
+        }
+    }
 
 }
