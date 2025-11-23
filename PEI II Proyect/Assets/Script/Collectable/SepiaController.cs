@@ -38,7 +38,7 @@ public class SepiasController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            player.playerStats.sepias += valor;
+            player.playerStats.AddSepias(this.valor);
             Destroy(this.gameObject);
         }
     }

@@ -1314,6 +1314,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: -0.69, y: -0.76, z: 0}
+--- !u!4 &42229818 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
+  m_PrefabInstance: {fileID: 1160019155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &56687143 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a4de1ebffdecd4d4690766880dedf096, type: 3}
@@ -1352,9 +1357,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &56687146 stripped
 Transform:
@@ -1399,9 +1405,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &57163218 stripped
 Transform:
@@ -1446,9 +1453,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &59523295 stripped
 Transform:
@@ -2236,9 +2244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &78707901 stripped
 Transform:
@@ -2566,9 +2575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &122895011 stripped
 Transform:
@@ -3324,7 +3334,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 737175628}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalScale.x
@@ -3340,15 +3350,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.1
+      value: 0.26617
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000076293945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -62.45
+      value: 25.368122
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3356,15 +3366,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4250,7 +4260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc98c31a822db794d820bc2b8bd7d5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  minTargetDistance: 8
+  minTargetDistance: 15
   gravity: 9.81
   mass: 5
   rotationSpeed: 10
@@ -4261,7 +4271,7 @@ MonoBehaviour:
   dashCooldown: 0.5
   lockTarget: {fileID: 0}
   actualTarget: {fileID: 0}
-  searchRadius: 5
+  searchRadius: 15
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -4711,9 +4721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &214453468 stripped
 Transform:
@@ -6782,9 +6793,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &311237963 stripped
 Transform:
@@ -8899,7 +8911,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  - {fileID: 2100000, guid: 3bcb79e8be3a9e44692d01bed3af9bfa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10689,9 +10701,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &534684756 stripped
 Transform:
@@ -11076,9 +11089,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &593673792 stripped
 Transform:
@@ -12044,9 +12058,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &634705694 stripped
 Transform:
@@ -13144,6 +13159,9 @@ Transform:
   - {fileID: 453195770}
   - {fileID: 742098053}
   - {fileID: 2064389100}
+  - {fileID: 1077237197}
+  - {fileID: 42229818}
+  - {fileID: 1470785990}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &742098049
@@ -16286,9 +16304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &828726827 stripped
 Transform:
@@ -16312,9 +16331,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!65 &829504921
 BoxCollider:
@@ -16735,9 +16755,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &904976603 stripped
 Transform:
@@ -18289,6 +18310,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 737175628}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!4 &1077237197 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 01d25f8452a7473449a3832a6d49539b, type: 3}
+  m_PrefabInstance: {fileID: 140430517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1083837212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20698,11 +20724,11 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 737175628}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6.8456655
+      value: 6.845666
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalScale.y
@@ -20710,11 +20736,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6.8456655
+      value: 6.845666
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28.4
+      value: 28.56617
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20722,7 +20748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.5
+      value: 69.31812
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20730,7 +20756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.y
@@ -20738,7 +20764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -21836,9 +21862,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1235728845 stripped
 Transform:
@@ -22851,9 +22878,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1334996358 stripped
 Transform:
@@ -22898,9 +22926,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1344889418 stripped
 Transform:
@@ -25514,9 +25543,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1407182930 stripped
 Transform:
@@ -25599,7 +25629,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  - {fileID: 2100000, guid: 3bcb79e8be3a9e44692d01bed3af9bfa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25892,6 +25922,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!4 &1470785990 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
+  m_PrefabInstance: {fileID: 1737788140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1479317320 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a4de1ebffdecd4d4690766880dedf096, type: 3}
@@ -25930,9 +25965,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1479317323 stripped
 Transform:
@@ -27936,9 +27972,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1690051474 stripped
 Transform:
@@ -28097,11 +28134,11 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 737175628}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5.76778
+      value: 5.7677794
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalScale.y
@@ -28109,11 +28146,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5.76778
+      value: 5.7677794
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.3
+      value: -15.13383
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28121,7 +28158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.5
+      value: 81.31812
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.w
@@ -28129,7 +28166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.y
@@ -28137,7 +28174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e532048fbda98d4499846f2cc2fdfc52, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -30607,9 +30644,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1765142692 stripped
 Transform:
@@ -31787,9 +31825,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1784912911 stripped
 Transform:
@@ -32471,9 +32510,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1853436722 stripped
 Transform:
@@ -32518,9 +32558,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1861293144 stripped
 Transform:
@@ -32676,9 +32717,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1878377672 stripped
 Transform:
@@ -32834,9 +32876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1894970226 stripped
 Transform:
@@ -34370,9 +34413,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1945170382 stripped
 Transform:
@@ -34630,9 +34674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &1987797012 stripped
 Transform:
@@ -35461,9 +35506,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &2036848794 stripped
 Transform:
@@ -35508,9 +35554,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &2043290310 stripped
 Transform:
@@ -36762,6 +36809,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 905921e4fe699e6469b459240bfbc86a, type: 3}
+--- !u!1 &2079908639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2079908641}
+  - component: {fileID: 2079908640}
+  m_Layer: 0
+  m_Name: Teleport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &2079908640
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079908639}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 10.277735, z: 11.867194}
+  m_Center: {x: 0, y: 5.052994, z: 0.28572416}
+--- !u!4 &2079908641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079908639}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -73.58617, y: 0, z: -16.76812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2089781234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37543,9 +37643,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc366f65c477a0a4b927b8ac666105f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrassController
-  maxSepias: 5
-  randomSepias: 0
-  randomRotationY: 0
+  sepiaPrefab: {fileID: 1992739752273744047, guid: 5209655068e3f15418898e1103f06f43, type: 3}
+  hearthPrefab: {fileID: 9096255984131332642, guid: a050807d18b5bcc44b63bbaa68ea11fd, type: 3}
+  maxSepiasAmount: 5
+  hearthChance: 0.3
   maxRotation: 0
 --- !u!4 &2089781238 stripped
 Transform:
@@ -38810,21 +38911,19 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 175035102}
   - {fileID: 326268779}
-  - {fileID: 1160019155}
-  - {fileID: 1737788140}
   - {fileID: 1256991938}
-  - {fileID: 484029114}
-  - {fileID: 5499126049315250856}
-  - {fileID: 1934439296}
   - {fileID: 854387325}
   - {fileID: 750174963535489567}
-  - {fileID: 140430517}
   - {fileID: 483942630838212240}
   - {fileID: 678249424}
-  - {fileID: 411317823}
   - {fileID: 737175628}
   - {fileID: 681527247}
+  - {fileID: 411317823}
   - {fileID: 1966985385}
   - {fileID: 1096184439}
   - {fileID: 1404975986}
   - {fileID: 7464072217521386683}
+  - {fileID: 5499126049315250856}
+  - {fileID: 1934439296}
+  - {fileID: 484029114}
+  - {fileID: 2079908641}

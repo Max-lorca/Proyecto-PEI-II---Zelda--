@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     private void FindClosestTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position + Vector3.forward*1.5f, searchRadius, enemyLayer);
+        Collider[] hits = Physics.OverlapSphere(transform.position, searchRadius, enemyLayer);
 
         if (hits.Length == 0)
         {
@@ -259,6 +259,8 @@ public class PlayerController : MonoBehaviour
             case "SwordChestKey":
                 swordChestKey = true;
                 Destroy(other.gameObject);
+                break;
+            case "Teleport1":
                 break;
         }
     }

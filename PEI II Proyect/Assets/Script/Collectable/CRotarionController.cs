@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CRotationController : MonoBehaviour
 {
-    [SerializeField] float rotationVelocity;
+    [SerializeField] private float rotationVelocity;
     void Update()
     {
-        transform.Rotate(Vector3.up * rotationVelocity * Time.deltaTime);
+        transform.Rotate(Vector3.up * rotationVelocity * Time.deltaTime, Space.World);
     }
 }

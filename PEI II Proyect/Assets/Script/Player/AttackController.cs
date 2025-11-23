@@ -84,9 +84,14 @@ public class AttackController : MonoBehaviour
                     enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
+                case "SlugBomb":
+                    SlugBomb slugEnemy = hits[i].gameObject.GetComponent<SlugBomb>();
+                    StartCoroutine(slugEnemy.TakeKnockBack());
+                    slugEnemy.TakeDamage(this.damage);
+                    break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
-                    GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
+                    grass.DropItems();
                     Destroy(grass.gameObject);
                     break;
             }
@@ -115,9 +120,14 @@ public class AttackController : MonoBehaviour
                     enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
                     break;
+                case "SlugBomb":
+                    SlugBomb slugEnemy = hits[i].gameObject.GetComponent<SlugBomb>();
+                    StartCoroutine(slugEnemy.TakeKnockBack());
+                    slugEnemy.TakeDamage(this.damage);
+                    break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
-                    GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
+                    grass.DropItems();
                     Destroy(grass.gameObject);
                     break;
             }
@@ -153,7 +163,7 @@ public class AttackController : MonoBehaviour
                     break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
-                    GameplayManager.instance.InstantiateSepias(grass.randomSepias, grass.transform);
+                    grass.DropItems();
                     Destroy(grass.gameObject);
                     break;
 
