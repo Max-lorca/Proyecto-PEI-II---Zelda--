@@ -23,6 +23,10 @@ public class PlayerInteractController : MonoBehaviour
                     hit.TryGetComponent(out NPCController npc);
                     npc.Interact();
                     break;
+                case "Door":
+                    hit.TryGetComponent(out DoorController door);
+                    door.Interact();
+                    break;
             }
         }
     }

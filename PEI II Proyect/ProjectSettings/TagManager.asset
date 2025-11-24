@@ -13,6 +13,8 @@ TagManager:
   - SlugBomb
   - OctoRock
   - MagicShield
+  - Door
+  - HearthChestKey
   layers:
   - Default
   - TransparentFX

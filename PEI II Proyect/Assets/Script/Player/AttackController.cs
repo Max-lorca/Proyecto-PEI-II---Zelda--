@@ -19,7 +19,6 @@ public class AttackController : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float radiusAttack = 3f;
 
-    [SerializeField] public bool haveSword = false;
     [Header("Referencias")]
     [SerializeField] private GameObject SlashPrefab;
 
@@ -36,16 +35,19 @@ public class AttackController : MonoBehaviour
     }
     private void Update()
     {
-
-        if(!isAttacking && inputAttack && actualAttack == Attack.A && haveSword)
+        if (playerController.playerStats.haveSword)
+        {
+            SwordPrefab.SetActive(true);
+        }
+        if(!isAttacking && inputAttack && actualAttack == Attack.A && playerController.playerStats.haveSword)
         {
             StartCoroutine(AttackAPerformance());
         }
-        if(!isAttacking && inputAttack && actualAttack == Attack.B && haveSword)
+        if(!isAttacking && inputAttack && actualAttack == Attack.B && playerController.playerStats.haveSword)
         {
             StartCoroutine(AttackBPerformance());
         }
-        if(!isAttacking && inputAttack && actualAttack == Attack.C && haveSword)
+        if(!isAttacking && inputAttack && actualAttack == Attack.C && playerController.playerStats.haveSword)
         {
             StartCoroutine(AttackCPerformance());
         }
@@ -81,18 +83,22 @@ public class AttackController : MonoBehaviour
             {
                 case "BasicKnight":
                     BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
-                    enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
+                    StartCoroutine(enemy.TakeKnockBack());
                     break;
                 case "SlugBomb":
                     SlugBomb slugEnemy = hits[i].gameObject.GetComponent<SlugBomb>();
-                    StartCoroutine(slugEnemy.TakeKnockBack());
                     slugEnemy.TakeDamage(this.damage);
+                    StartCoroutine(slugEnemy.TakeKnockBack());
                     break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
-                    grass.DropItems();
+                    GameplayManager.instance.DropItems(grass.transform, grass.maxSepiasAmount);
                     Destroy(grass.gameObject);
+                    break;
+                case "OctoRock":
+                    OctoRock octoRock = hits[i].gameObject.GetComponent<OctoRock>();
+                    octoRock.TakeDamage(this.damage);
                     break;
             }
         }
@@ -115,20 +121,24 @@ public class AttackController : MonoBehaviour
         {
             switch (hits[i].gameObject.tag)
             {
-                case "BasicNight":
+                case "BasicKnight":
                     BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
-                    enemy.TakeKnockBack();
                     enemy.TakeDamage(this.damage);
+                    StartCoroutine(enemy.TakeKnockBack());
                     break;
                 case "SlugBomb":
                     SlugBomb slugEnemy = hits[i].gameObject.GetComponent<SlugBomb>();
-                    StartCoroutine(slugEnemy.TakeKnockBack());
                     slugEnemy.TakeDamage(this.damage);
+                    StartCoroutine(slugEnemy.TakeKnockBack());
                     break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
-                    grass.DropItems();
+                    GameplayManager.instance.DropItems(grass.transform, grass.maxSepiasAmount);
                     Destroy(grass.gameObject);
+                    break;
+                case "OctoRock":
+                    OctoRock octoRock = hits[i].gameObject.GetComponent<OctoRock>();
+                    octoRock.TakeDamage(this.damage);
                     break;
             }
         }
@@ -153,20 +163,23 @@ public class AttackController : MonoBehaviour
             {
                 case "BasicKnight":
                     BasicKnight enemy = hits[i].gameObject.GetComponent<BasicKnight>();
-                    StartCoroutine(enemy.TakeKnockBack());
                     enemy.TakeDamage(this.damage);
+                    StartCoroutine(enemy.TakeKnockBack());
                     break;
                 case "SlugBomb":
                     SlugBomb slugEnemy = hits[i].gameObject.GetComponent<SlugBomb>();
-                    StartCoroutine(slugEnemy.TakeKnockBack());
                     slugEnemy.TakeDamage(this.damage);
+                    StartCoroutine(slugEnemy.TakeKnockBack());
                     break;
                 case "Grass":
                     GrassController grass = hits[i].gameObject.GetComponent<GrassController>();
-                    grass.DropItems();
+                    GameplayManager.instance.DropItems(grass.transform, grass.maxSepiasAmount);
                     Destroy(grass.gameObject);
                     break;
-
+                case "OctoRock":
+                    OctoRock octoRock = hits[i].gameObject.GetComponent<OctoRock>();
+                    octoRock.TakeDamage(this.damage);
+                    break;
             }
         }
 

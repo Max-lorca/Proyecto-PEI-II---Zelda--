@@ -6,7 +6,12 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager instance;
     private PlayerController playerReference;
 
-    [SerializeField] private GameObject sepiasPrefab;
+    [SerializeField] public string nextSpawnPoint = "";
+
+    [SerializeField] private GameObject sepiaPrefab;
+    [SerializeField] private GameObject hearthPrefab;
+
+    [SerializeField] private float hearthChance = 0.3f; // 30% de probabilidad de que salga un corazon
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,12 +38,21 @@ public class GameplayManager : MonoBehaviour
             return;
         }
     }
-
-    public void InstantiateSepias(float cantidad, Transform posicion)
+    public void DropItems(Transform target, int maxSepiasAmount)
     {
-        for (int i = 0; i <= cantidad; i++)
+        float r = Random.value;
+
+        if (r <= hearthChance)
         {
-            Instantiate(sepiasPrefab, posicion.position, sepiasPrefab.transform.rotation);
+            Instantiate(hearthPrefab, target.position, hearthPrefab.transform.rotation);
+            return;
+        }
+
+        int amount = Random.Range(1, maxSepiasAmount + 1);
+
+        for (int i = 0; i < amount; i++)
+        {
+            Instantiate(sepiaPrefab, target.position, Quaternion.identity);
         }
     }
     public void LoadPlayerReference()
@@ -53,5 +67,31 @@ public class GameplayManager : MonoBehaviour
     public void ResetLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        LoadPlayerReference();
+
+        if (string.IsNullOrEmpty(nextSpawnPoint)) return;
+
+        GameObject spawn = GameObject.Find(nextSpawnPoint);
+
+        if(spawn != null && playerReference != null)
+        {
+            playerReference.transform.position = spawn.transform.position;
+            playerReference.transform.rotation = spawn.transform.rotation;
+        }
+
+        nextSpawnPoint = "";
     }
 }

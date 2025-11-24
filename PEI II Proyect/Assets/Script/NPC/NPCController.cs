@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour
@@ -70,8 +69,8 @@ public class NPCController : MonoBehaviour
         else
         {
             dialogueText.text = "Escudo Vendido!!!";
-            ShieldController shield = GameplayManager.instance.GetPlayerReference().GetComponent<ShieldController>();
-            shield.haveShield = true;
+            PlayerController player = GameplayManager.instance.GetPlayerReference();
+            player.playerStats.haveShield = true;
             yield return new WaitForSeconds(1f);
             dialogueText.text = "";
             dialoguePanel.SetActive(false);

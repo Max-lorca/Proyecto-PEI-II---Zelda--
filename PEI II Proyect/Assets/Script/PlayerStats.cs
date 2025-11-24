@@ -8,6 +8,15 @@ public class PlayerStats : ScriptableObject
     public float speed = 5f;
     public int sepias = 0;
 
+    public bool haveShield;
+    public bool haveSword;
+
+    //level1
+    public bool haveSwordKey;
+    //level2
+    public bool haveHearthKey;
+    public bool haveBossKey;
+
     public void AddSepias(int cant)
     {
         this.sepias += cant;
@@ -31,5 +40,12 @@ public class PlayerStats : ScriptableObject
         this.life = maxLife;
         this.speed = 5f;
         this.sepias = 0;
+
+        this.haveShield = false;
+        this.haveSword = false;
+
+        this.haveSwordKey = false;
+        this.haveHearthKey = false;
+        this.haveBossKey = false;
     }
 }

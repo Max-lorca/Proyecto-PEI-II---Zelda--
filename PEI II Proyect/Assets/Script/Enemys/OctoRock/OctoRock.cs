@@ -24,7 +24,7 @@ public class OctoRock : MonoBehaviour
 
     [SerializeField] private float minDistanceAttack;
 
-    [SerializeField] private float cantSepias = 5f;
+    [SerializeField] private int cantSepias = 5;
 
     [Header("Attack Parameters")]
     [SerializeField] private bool isAttacking = false;
@@ -45,7 +45,7 @@ public class OctoRock : MonoBehaviour
 
         if (this.life <= 0)
         {
-            GameplayManager.instance.InstantiateSepias(cantSepias, this.transform);
+            GameplayManager.instance.DropItems(this.transform, cantSepias);
 
             TargetPoint selfTarget = GetComponentInChildren<TargetPoint>();
 

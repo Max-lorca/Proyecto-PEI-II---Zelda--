@@ -24,7 +24,7 @@ public class BasicKnight : MonoBehaviour
     [SerializeField] private float knockBackCooldown;
     [SerializeField] private float knockBackValue;
 
-    [SerializeField] private float cantSepias = 5f;
+    [SerializeField] private int cantSepias = 5;
 
     [Header("Attack Parameters")]
     [HideInInspector] private bool isInKnockBack = false;
@@ -45,7 +45,7 @@ public class BasicKnight : MonoBehaviour
 
         if(this.life <= 0)
         {
-            GameplayManager.instance.InstantiateSepias(cantSepias, this.transform);
+            GameplayManager.instance.DropItems(this.transform, cantSepias);
 
             TargetPoint selfTarget = GetComponentInChildren<TargetPoint>();
             Destroy(this.gameObject);

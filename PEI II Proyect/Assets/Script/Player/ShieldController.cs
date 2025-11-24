@@ -6,7 +6,6 @@ public class ShieldController : MonoBehaviour
 {
     private PlayerController playerController;
     private bool inputShield = false;
-    [HideInInspector] public bool haveShield = false;
     
     [Header("Referencias")]
     [SerializeField] private GameObject shieldPrefab;
@@ -20,7 +19,7 @@ public class ShieldController : MonoBehaviour
 
     void Update()
     {
-        if (inputShield && haveShield != false)
+        if (inputShield && playerController.playerStats.haveShield != false)
         {
             ShieldPerformance();
         }

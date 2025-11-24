@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736f52eee7fb5d648a58b7a1519412c1, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  life: 4
+  life: 3
   maxLife: 3
   speed: 5
-  sepias: 5
+  sepias: 0
+  haveShield: 0
+  haveSword: 0
+  haveSwordKey: 0
+  haveHearthKey: 0
+  haveBossKey: 0

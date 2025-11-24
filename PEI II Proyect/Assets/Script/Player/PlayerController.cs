@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     //Lock-in
     private bool isTargetLockedInput = false;
     private bool rotationTarget = false;
-    private bool swordChestKey = false;
 
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
@@ -55,6 +54,21 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+
+        string spawnName = GameplayManager.instance.nextSpawnPoint;
+
+        if (!string.IsNullOrEmpty(spawnName))
+        {
+            GameObject spawnObject = GameObject.Find(spawnName);
+
+            if (spawnObject != null)
+            {
+                transform.position = spawnObject.transform.position;
+                transform.rotation = spawnObject.transform.rotation;
+            }
+
+            GameplayManager.instance.nextSpawnPoint = "";
+        }
         
     }
 
@@ -257,11 +271,14 @@ public class PlayerController : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "SwordChestKey":
-                swordChestKey = true;
+                playerStats.haveSwordKey = true;
                 Destroy(other.gameObject);
                 break;
-            case "Teleport1":
+            case "HearthChestKey":
+                playerStats.haveHearthKey = true;
+                Destroy(other.gameObject);
                 break;
+            
         }
     }
 }
