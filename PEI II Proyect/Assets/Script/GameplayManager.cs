@@ -13,7 +13,7 @@ public class GameplayManager : MonoBehaviour
 
     [SerializeField] private float hearthChance = 0.3f; // 30% de probabilidad de que salga un corazon
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {

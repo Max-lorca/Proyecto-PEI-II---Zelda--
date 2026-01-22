@@ -7,12 +7,9 @@ public class AttackController : MonoBehaviour
     private bool isAttacking = false;
     private bool inputAttack = false;
 
-    
-
     private PlayerController playerController;
 
     private int count = 0;
-
 
     [SerializeField] public GameObject SwordPrefab;
     [SerializeField] private float damage = 10f;
@@ -20,8 +17,7 @@ public class AttackController : MonoBehaviour
     [SerializeField] private float radiusAttack = 3f;
 
     [Header("Referencias")]
-    [SerializeField] private GameObject SlashPrefab;
-
+    [SerializeField] private ParticleSystem slashVFX;
 
     public enum Attack { A = 0, B = 1 , C = 2}
     public Attack actualAttack = Attack.A;
@@ -31,7 +27,6 @@ public class AttackController : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         SwordPrefab.SetActive(false);
-        SlashPrefab.SetActive(false);
     }
     private void Update()
     {
@@ -73,8 +68,7 @@ public class AttackController : MonoBehaviour
     private IEnumerator AttackAPerformance()
     {
         isAttacking = true;
-        SlashPrefab.SetActive(true);
-
+        slashVFX.Play();
         Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
 
         for(int i = 0; i < hits.Length; i++)
@@ -104,15 +98,13 @@ public class AttackController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(attackCooldown);
-        SlashPrefab.SetActive(false);
         inputAttack = false;
         isAttacking = false;
     }
     private IEnumerator AttackBPerformance()
     {
         isAttacking = true;
-        SlashPrefab.SetActive(true);
-        SlashPrefab.transform.Rotate(Vector3.right, 25);
+        slashVFX.Play();
 
 
         Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
@@ -144,7 +136,6 @@ public class AttackController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(attackCooldown);
-        SlashPrefab.SetActive(false);
         inputAttack = false;
         isAttacking = false;
 
@@ -152,8 +143,7 @@ public class AttackController : MonoBehaviour
     private IEnumerator AttackCPerformance()
     {
         isAttacking = true;
-        SlashPrefab.SetActive(true);
-        SlashPrefab.transform.Rotate(Vector3.right, -25);
+        slashVFX.Play();
 
         Collider[] hits = Physics.OverlapSphere(transform.position, radiusAttack);
 
@@ -184,7 +174,6 @@ public class AttackController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(attackCooldown);
-        SlashPrefab.SetActive(false);
         inputAttack = false;
         isAttacking = false;
     }

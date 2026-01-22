@@ -1,17 +1,16 @@
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using System.Security.Cryptography;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    private PlayerInvisibility playerInvisibility;
     private CharacterController characterController;
     private PlayerInput playerInput;
+    private AudioSource playerAudioSource;
 
     private Vector3 playerGravity;
     private Vector2 input;
@@ -19,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool isTargetLockedInput = false;
     private bool rotationTarget = false;
 
+    [Header("Stats")]
     [SerializeField] private float minTargetDistance = 8f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float mass = 5f;
@@ -48,12 +48,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform targetTransform1, targetTransform2;
     [SerializeField] private Transform originalTransform1, originalTransform2;
 
+    [Header("Invisibility")]
+    [SerializeField] private ParticleSystem dashParticle;
 
-
+    [Header("Player Sounds")]
+    [SerializeField] private AudioClip smokeDessapearAudio;
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        playerInvisibility = GetComponent<PlayerInvisibility>();
+        playerAudioSource = GetComponent<AudioSource>();
+
+        Debug.Log(GameplayManager.instance);
 
         string spawnName = GameplayManager.instance.nextSpawnPoint;
 
@@ -244,7 +251,11 @@ public class PlayerController : MonoBehaviour
 
         float dashSpeed = dashDistance / dashDuration;
 
-        while(elapsed < dashDuration)
+        playerAudioSource.PlayOneShot(smokeDessapearAudio);
+        dashParticle.Play();
+        playerInvisibility.SetInvisibility(true);
+
+        while (elapsed < dashDuration)
         {
             characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
 
@@ -253,6 +264,9 @@ public class PlayerController : MonoBehaviour
         }
 
         isDashing = false;
+        playerAudioSource.PlayOneShot(smokeDessapearAudio);
+        dashParticle.Play();
+        playerInvisibility.SetInvisibility(false);
     }
     public void OnDash(InputAction.CallbackContext ctx)
     {
