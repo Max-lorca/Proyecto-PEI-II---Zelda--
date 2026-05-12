@@ -48,8 +48,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform targetTransform1, targetTransform2;
     [SerializeField] private Transform originalTransform1, originalTransform2;
 
+    private ParticleSystem.EmissionModule dustEmission;
+
     [Header("Invisibility")]
     [SerializeField] private ParticleSystem dashParticle;
+    [Header("Movimiento")]
+    [SerializeField] private ParticleSystem footParticle;
 
     [Header("Player Sounds")]
     [SerializeField] private AudioClip smokeDessapearAudio;
@@ -59,6 +63,8 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerInvisibility = GetComponent<PlayerInvisibility>();
         playerAudioSource = GetComponent<AudioSource>();
+
+        dustEmission = footParticle.emission;
 
         Debug.Log(GameplayManager.instance);
 
@@ -89,6 +95,11 @@ public class PlayerController : MonoBehaviour
             playerGravity.y = -2f;
         else
             playerGravity.y -= (gravity / mass) * Time.deltaTime;
+
+        if (characterController.isGrounded && input.magnitude >= 0.1)
+            dustEmission.enabled = true;
+        else
+            dustEmission.enabled = false;
 
         if (this.playerStats.life <= 0)
         {

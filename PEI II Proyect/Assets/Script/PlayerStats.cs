@@ -6,6 +6,7 @@ public class PlayerStats : ScriptableObject
     public int life = 3;
     public int maxLife = 3;
     public float speed = 5f;
+    public float maxSpeed = 10f;
     public int sepias = 0;
 
     public bool haveShield;
@@ -39,6 +40,7 @@ public class PlayerStats : ScriptableObject
         this.maxLife = 3;
         this.life = maxLife;
         this.speed = 5f;
+        this.maxSpeed = 10f;
         this.sepias = 0;
 
         this.haveShield = false;
